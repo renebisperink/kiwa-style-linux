@@ -4,14 +4,17 @@
 #@author Rene Bisperink
 #@version 0.2
 
-defaultinstall.sh () {
+install_theme.sh () {
 	#update;
+	#installkaligui;
 	#addkiwauser;
 	#configurexfce;
 	#installpentest;
 	#installffdev;
 		
 }
+
+
 update () {
 	sudo apt update
 	sudo apt upgrade -y
@@ -21,7 +24,10 @@ addkiwauser () {
 	# Stub for creating a user kiwa:kiwa and add it to the sudoers groep. 
 }
 
-
+installkaligui () {
+	update;
+	sudo apt install kali-win-kex
+}
 
 installpentest () {
 	update;
@@ -34,6 +40,11 @@ installpentest () {
 
 installptf () {
 	cd /opt/
+	
+	if [ "$EUID" -ne 0 ]
+  		sudo chown -R $USER:$USER /opt  		
+	fi
+	
 	git clone https://github.com/trustedsec/ptf.git
 	cd /opt/ptf
 	chmod +x ptf
@@ -43,7 +54,7 @@ installptf () {
 
 configurexfce () {
 	sudo xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
-	sudo 
+	#Expand with setting background and window manager theme.
 }
 
 
@@ -104,4 +115,4 @@ installffdev () {
    
 }
 
-defaultinstall.sh
+install_theme.sh
