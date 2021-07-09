@@ -1,33 +1,45 @@
 #!/bin/bash
+
 #A simple installscript for the kiwa theme. For now it only works on Ubuntu/Debian/Kali based systems.
 #uncomment the functions you need
 #@author Rene Bisperink
-#@version 0.2
+#@version 0.3
 
 install_theme.sh () {
 	#update;
-	#installkaligui;
 	#addkiwauser;
+	#installkaligui
+	setbackground;
 	#configurexfce;
 	#installpentest;
 	#installffdev;
 		
 }
-
-
 update () {
 	sudo apt update
 	sudo apt upgrade -y
 }
 
 addkiwauser () {
-	# Stub for creating a user kiwa:kiwa and add it to the sudoers groep. 
+	adduser kiwa
+	echo "kiwa" | passwd --stdin kiwa
+	sudo usermod -aG sudo kiwa 
+	
 }
 
 installkaligui () {
 	update;
 	sudo apt install kali-win-kex
 }
+
+setbackground () {
+	for a in $(xfconf-query --channel xfce4-desktop -m | grep last-image)
+	do
+		xfconf-query --channel xfce4-desktop --property $a --set ./unnamed.jpg
+	done
+		
+}
+
 
 installpentest () {
 	update;
@@ -44,7 +56,7 @@ installptf () {
 	if [ "$EUID" -ne 0 ]
   		sudo chown -R $USER:$USER /opt  		
 	fi
-	
+
 	git clone https://github.com/trustedsec/ptf.git
 	cd /opt/ptf
 	chmod +x ptf
@@ -54,7 +66,7 @@ installptf () {
 
 configurexfce () {
 	sudo xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
-	#Expand with setting background and window manager theme.
+
 }
 
 
