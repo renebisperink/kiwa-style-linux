@@ -37,12 +37,34 @@ installkaligui () {
 
 setbackground () {
 	echo "[*] Setting the background"
-	for a in $(xfconf-query --channel xfce4-desktop -m | grep last-image)
+	for b in $(xfconf-query --channel xfce4-desktop --list | grep last-image)
 	do
 		echo "Setting the background from $(pwd)/unnamed.jpg"
-		xfconf-query --channel xfce4-desktop --property $a --set $(pwd)/unnamed.jpg
+		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/unnamed.jpg
 	done
-		
+	
+	echo "[*] Setting the image style to centered"
+	for s in $(xfconf-query --channel xfce4-desktop --list | grep image-style)
+	do
+		echo "Setting the style to centered on $s"
+		xfconf-query --channel xfce4-desktop --property $s --set 1
+	done
+	
+	echo "[*] Setting the color style"
+	for c in $(xfconf-query --channel xfce4-desktop --list | grep color-style)
+	do
+		echo "Setting the color style to centered on $c"
+		xfconf-query --channel xfce4-desktop --property $c --set 0
+	done
+
+	# TO BE FIXED
+	#echo "[*] Setting the wallpaper background color"
+	#for r in $(xfconf-query --channel xfce4-desktop --list | grep color1 )
+	#do
+	#	echo "Setting the color background to centered on $r"
+	#	xfconf-query -c xfce4-desktop -p $r -t int -t int -t int -t int -s 255 -s 255 -s 255 -s 1
+	#done
+	
 }
 
 
@@ -60,7 +82,8 @@ installpentest () {
 installptf () {
 	cd /opt/
 	echo "[*] Installing the Penetration Testers Framework (ptf) by Dave Kennedy (TrustedSec)"
-	if [ "$EUID" -ne 0 ]
+	if [ "$EUID" -ne 0 ] 
+	then
   		sudo chown -R $USER:$USER /opt  		
 	fi
 
