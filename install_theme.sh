@@ -35,7 +35,8 @@ installkaligui () {
 setbackground () {
 	for a in $(xfconf-query --channel xfce4-desktop -m | grep last-image)
 	do
-		xfconf-query --channel xfce4-desktop --property $a --set ./unnamed.jpg
+		echo "Setting the background from $(pwd)/unnamed.jpg"
+		xfconf-query --channel xfce4-desktop --property $a --set $(pwd)/unnamed.jpg
 	done
 		
 }
