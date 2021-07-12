@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#A simple installscript for the kiwa theme. For now it only works on Kali based systems. Some of the functions also work on Ubuntu/debian/parrot based OS'es
+#A simple installscript for the kiwa theme. For now it only works on Kali (xfce) based systems. Some of the functions also work on Ubuntu/debian/parrot based OS'es
 #uncomment the functions you need
 #@author Rene Bisperink
 #@version 0.3
