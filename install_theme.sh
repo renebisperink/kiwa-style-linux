@@ -36,21 +36,21 @@ installkaligui () {
 }
 
 setbackground () {
-	echo "[*] Setting the background"
+	echo "[*] Setting the background for all monitors and workspaces"
 	for b in $(xfconf-query --channel xfce4-desktop --list | grep last-image)
 	do
 		echo "Setting the background from $(pwd)/unnamed.jpg"
 		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/unnamed.jpg
 	done
 	
-	echo "[*] Setting the image style to centered"
+	echo "[*] Setting the image style to centered for all monitors and workspaces"
 	for s in $(xfconf-query --channel xfce4-desktop --list | grep image-style)
 	do
 		echo "Setting the style to centered on $s"
 		xfconf-query --channel xfce4-desktop --property $s --set 1
 	done
 	
-	echo "[*] Setting the color style"
+	echo "[*] Setting the color style for all monitors and workspaces to a solid color"
 	for c in $(xfconf-query --channel xfce4-desktop --list | grep color-style)
 	do
 		echo "Setting the color style to centered on $c"
