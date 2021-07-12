@@ -9,8 +9,7 @@ install_theme.sh () {
 	#update;
 	#addkiwauser;
 	#installkaligui
-	setbackground;
-	#configurexfce;
+	configurexfce;
 	#installpentest;
 	#installffdev;
 		
@@ -35,35 +34,37 @@ installkaligui () {
 	sudo apt install kali-win-kex
 }
 
-setbackground () {
-	echo "[*] Setting the background for all monitors and workspaces"
+configurexfce () {
+	configuretheme;
+
+	echo "[*] Setting the background"
 	for b in $(xfconf-query --channel xfce4-desktop --list | grep last-image)
 	do
 		echo "Setting the background from $(pwd)/unnamed.jpg"
 		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/unnamed.jpg
 	done
 	
-	echo "[*] Setting the image style to centered for all monitors and workspaces"
+	echo "[*] Setting the image style to centered"
 	for s in $(xfconf-query --channel xfce4-desktop --list | grep image-style)
 	do
 		echo "Setting the style to centered on $s"
 		xfconf-query --channel xfce4-desktop --property $s --set 1
 	done
 	
-	echo "[*] Setting the color style for all monitors and workspaces to a solid color"
+	echo "[*] Setting the color style"
 	for c in $(xfconf-query --channel xfce4-desktop --list | grep color-style)
 	do
 		echo "Setting the color style to centered on $c"
 		xfconf-query --channel xfce4-desktop --property $c --set 0
 	done
 
-	# TO BE FIXED
-	#echo "[*] Setting the wallpaper background color"
-	#for r in $(xfconf-query --channel xfce4-desktop --list | grep color1 )
-	#do
-	#	echo "Setting the color background to centered on $r"
-	#	xfconf-query -c xfce4-desktop -p $r -t int -t int -t int -t int -s 255 -s 255 -s 255 -s 1
-	#done
+	
+	echo "[*] Setting the wallpaper background color"
+	for r in $(xfconf-query --channel xfce4-desktop --list | grep rgba1 )
+	do
+		echo "Setting the color background to white on $r"
+		xfconf-query -c xfce4-desktop -p $r -t double -t double -t double -t double -s 1 -s 1 -s 1 -s 1
+	done
 	
 }
 
@@ -94,10 +95,14 @@ installptf () {
 }
 
 
-configurexfce () {
+configuretheme () {
+	echo "[*] configuring the theme."
 	echo "[*] setting the icons to the Windows 10 icons from Kali"
-	sudo xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
-
+	xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
+	echo "[*] setting the theme to Window 10 from Kali"
+	xfconf-query -c xsettings -p /Net/ThemeName -s Windows-10
+	echo "[*] setting the window manager to Window 10 from Kali"
+	xfconf-query -c xfwm4 -p /general/theme -s Windows-10
 }
 
 
@@ -144,7 +149,11 @@ installffdev () {
    	sudo mv firefox/* /opt/firefox-dev
 
     	# make current user the owner of the firefox folder
-    	sudo chown $USER:$USER /opt/firefox-dev
+	if [ "$EUID" -ne 0 ] 
+	then
+  		sudo chown $USER:$USER /opt/firefox-dev		
+	fi
+    	
 
     	# Remove the unzipped install folder.
     	rm -rf firefox
