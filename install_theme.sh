@@ -8,7 +8,7 @@
 install_theme.sh () {
 	#update;
 	#addkiwauser;
-	#installkaligui
+	#installkaliwslgui
 	configurexfce;
 	#installpentest;
 	#installffdev;
@@ -28,7 +28,7 @@ addkiwauser () {
 	
 }
 
-installkaligui () {
+installkaliwslgui () {
 	update;
 	echo "[*] Installing the kali-win-kex package to have a GUI on WSL"
 	sudo apt install kali-win-kex
@@ -99,7 +99,7 @@ configuretheme () {
 	echo "[*] configuring the theme."
 	echo "[*] setting the icons to the Windows 10 icons from Kali"
 	xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
-	echo "[*] setting the theme to Window 10 from Kali"
+	echo "[*] setting the theme to Windows 10 from Kali"
 	xfconf-query -c xsettings -p /Net/ThemeName -s Windows-10
 	echo "[*] setting the window manager to Window 10 from Kali"
 	xfconf-query -c xfwm4 -p /general/theme -s Windows-10
