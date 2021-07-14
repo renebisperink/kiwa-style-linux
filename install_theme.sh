@@ -176,7 +176,7 @@ cloneptrepos () {
 	git clone https://github.com/411Hall/JAWS
 	git clone https://github.com/threat9/routersploit
 	git clone https://github.com/Ullaakut/cameradar
-`	
+	
 }
 
 installazurecli () {
