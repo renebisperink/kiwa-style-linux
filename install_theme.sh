@@ -89,10 +89,17 @@ installpentest () {
 	update;
 	echo "[*] Installing pentest packages"
 	sudo apt install -y exiftool wine64 gdb wireshark wine seclists gobuster ftp php-curl python3-smb mingw-w64 apt-transport-https git gdb gcc python3 cmake make curl p7zip-full p7zip-rar ghidra;
-	if [ -n "$(uname -a | grep Kali)"]; then
-		echo "[*] Installing the kali-linux-large package"
-		sudo apt install kali-linux-large -y
+	if grep -q Microsoft /proc/version; then
+  	echo "[*] Linux on Windows (WSL). Not installing kali-linux-large because it triggers the Anti Virus when installing from WSL"
+	else
+  		if [ -n "$(uname -a | grep Kali)"]; then
+			echo "[*] Installing the kali-linux-large package"
+			sudo apt install kali-linux-large -y
+		fi
 	fi
+
+	
+
 	installptf;
 }
 
