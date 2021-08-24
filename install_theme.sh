@@ -60,8 +60,8 @@ configurexfce () {
 	printf "${RED}[*] Setting the background${NC}\n"
 	for b in $(xfconf-query --channel xfce4-desktop --list | grep last-image)
 	do
-		echo "Setting the background from $(pwd)/unnamed.jpg"
-		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/unnamed.jpg
+		echo "Setting the background from $(pwd)/kiwa-kali.png"
+		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/kiwa-kali.png
 	done
 	
 	printf "${RED}[*] Setting the image style to centered${NC}\n"
