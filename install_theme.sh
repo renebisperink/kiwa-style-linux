@@ -13,7 +13,7 @@ install_theme.sh () {
 	#update;
 	#addkiwauser;
 	#installkaligui
-	#configurexfce;
+	configurexfce;
 	#installpentest;
 	#installffdev;
 	#installmobilepentest;
@@ -56,19 +56,23 @@ installkaligui () {
 
 configurexfce () {
 	configuretheme;
+	
+	printf "${RED}[*] Making a directory and copying the background file to it${NC}\n"
+	sudo mkdir -p /usr/share/backgrounds/kiwa/
+	sudo cp kiwa-kali.png /usr/share/backgrounds/kiwa/
 
 	printf "${RED}[*] Setting the background${NC}\n"
 	for b in $(xfconf-query --channel xfce4-desktop --list | grep last-image)
 	do
-		echo "Setting the background from $(pwd)/kiwa-kali.png"
-		xfconf-query --channel xfce4-desktop --property $b --set $(pwd)/kiwa-kali.png
+		echo "Setting the background from /usr/share/backgrounds/kiwa/kiwa-kali.png"
+		xfconf-query --channel xfce4-desktop --property $b --set /usr/share/backgrounds/kiwa/kiwa-kali.png
 	done
 	
-	printf "${RED}[*] Setting the image style to centered${NC}\n"
+	printf "${RED}[*] Setting the image style to stretched${NC}\n"
 	for s in $(xfconf-query --channel xfce4-desktop --list | grep image-style)
 	do
-		echo "Setting the style to centered on $s"
-		xfconf-query --channel xfce4-desktop --property $s --set 1
+		echo "Setting the style to stretched on $s"
+		xfconf-query --channel xfce4-desktop --property $s --set 3
 	done
 	
 	printf "${RED}[*] Setting the color style${NC}\n"
@@ -85,6 +89,9 @@ configurexfce () {
 		echo "Setting the color background to white on $r"
 		xfconf-query -c xfce4-desktop -p $r -t double -t double -t double -t double -s 1 -s 1 -s 1 -s 1
 	done
+
+	printf "${RED}[*] Setting the GTK greeter settings (login screen) ${NC}\n"
+	sudo cp lightdm-gtk-greeter.conf /etc/lightdm/
 	
 }
 
@@ -115,7 +122,7 @@ installptf () {
 	git clone https://github.com/trustedsec/ptf.git
 	cd /opt/ptf
 	chmod +x ptf
-	sudo ./ptf --update-all
+	sudo ./ptf --update-allc
 }
 
 
@@ -124,9 +131,9 @@ configuretheme () {
 	printf "${RED}[*] setting the icons to the Windows 10 icons from Kali${NC}\n"
 	xfconf-query -c xsettings -p /Net/IconThemeName -s Windows-10-Icons
 	printf "${RED}[*] setting the theme to Window 10 from Kali${NC}\n"
-	xfconf-query -c xsettings -p /Net/ThemeName -s Windows-10
+	xfconf-query -c xsettings -p /Net/ThemeName -s Windows-10-Dark
 	printf "${RED}[*] setting the window manager to Window 10 from Kali${NC}\n"
-	xfconf-query -c xfwm4 -p /general/theme -s Windows-10
+	xfconf-query -c xfwm4 -p /general/theme -s Windows-10-Dark
 	printf "${RED}[*] setting the taskbar color to black${NC}\n"
 	xfconf-query --channel xfce4-panel -p /panels/panel-1/background-rgba --create \
         -t double -t double -t double -t double \
@@ -139,6 +146,9 @@ configuretheme () {
 	xfconf-query --channel xfce4-panel -p /panels/panel-1/size -s 36
 	printf "${RED}[*] setting icon size to 42${NC}\n"
 	xfconf-query --channel xfce4-desktop -p /desktop-icons/icon-size -s 42
+	
+	cp lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
+	
 }
 
 installmobilepentest () {
