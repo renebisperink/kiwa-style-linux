@@ -11,13 +11,14 @@ NC='\033[0m'
 
 install_theme.sh () {
 	#update;
-	#addkiwauser;
-	#installkaligui
+	addkiwauser;
+	installkaligui
 	configurexfce;
-	#installpentest;
-	#installffdev;
+	installpentest;
+	#installptf;
+	installffdev;
 	#installmobilepentest;
-	#installiotre;
+	installiotre;
 	#installmobsf;
 	#cloneptrepos;
 	#addaliases;
@@ -106,7 +107,6 @@ installpentest () {
   		if [ -n "$(uname -a | grep Kali)"]; then
 			printf "${RED}[*] Installing the kali-linux-large package${NC}\n"
 			sudo apt install kali-linux-large -y
-			installptf;
 		fi
 	fi
 }
