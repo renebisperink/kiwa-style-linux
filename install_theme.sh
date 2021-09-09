@@ -52,7 +52,10 @@ addaliases () {
 installkaligui () {
 	update;
 	printf "${RED}[*] Installing the kali-win-kex package to have a GUI on WSL${NC}\n"
-	sudo apt install kali-win-kex
+	if grep -q Microsoft /proc/version; then
+  		printf "${RED}[*] Linux on Windows (WSL). Installing kali-win-kex"
+		sudo apt install kali-win-kex
+	fi
 }
 
 configurexfce () {
