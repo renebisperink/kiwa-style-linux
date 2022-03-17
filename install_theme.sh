@@ -22,7 +22,7 @@ install_theme.sh () {
 	#installmobsf;
 	#cloneptrepos;
 	#addaliases;
-	
+	#buildattify;
 	
 		
 }
@@ -285,6 +285,165 @@ installffdev () {
     	
     	echo "Firefox Dev Ed $VERSION installed."
    
+}
+
+buildattify () {
+	echo "[*] creating directories and installing apt repositories"
+	mkdir /opt/attify
+	cd /opt/attify
+	sudo apt install arduino python3-pip dump1090-mutability python3-scapy routersploit libliquid2d ghidra kismet-capture-rz-killerbee binwalk python3-scapy proxmark3 cutesdr bettercap mosquitto firmware-mod-kit gnuradio gqrx-sdr hackrf gr-osmosdr inspectrum jadx kalibrate-rtl nmap radare2 radare2-cutter radare2-cutter rfcat rtl-sdr rtl-433 rtlsdr-scanner ubertooth
+	cd /opt/attify
+	echo "[*] baudrate"
+	# baudrate conversion dependency
+	pip3 uninstall serial
+	pip3 install pyserial
+	# still needs USB check
+	
+	echo "[*] btaddr"
+	#needs hci0 check
+
+	echo "[*] create_ap"
+	#needs wifi check
+	
+	echo "[*] cutter"
+	#Appimage so it will run
+
+	echo "[*] drivers"
+	#needs the usb connection
+	cd drivers
+	make
+	make install
+	cd ..
+	
+	echo "[*] Dspectrum Gui"
+	cd dspectrumgui
+	sudo apt install ruby
+	bundle install
+	cd ..
+	
+	echo "[*] Firmadyne"
+	git clone https://github.com/firmadyne/firmadyne
+	cd firmadyne
+	chmod +x setup.sh
+	./setup.sh
+	cd ..
+	
+	echo "[*] Firmware Mod Kit"
+	# installed via apt
+
+	
+	echo "[*] GR GSM"
+	sudo apt-get update && \
+     	sudo apt-get install -y \                                                       
+        cmake \
+        autoconf \
+        libtool \
+        pkg-config \
+        build-essential \
+        python3-docutils \
+        libcppunit-dev \
+        swig \
+        doxygen \
+        liblog4cpp5-dev \
+        python3-scipy \
+        gnuradio-dev \        
+        gr-osmosdr \
+        libosmocore-dev
+	
+	cd gr-gsm
+	mkdir build
+	cd build
+	cmake ..
+	mkdir $HOME/.grc_gnuradio/ $HOME/.gnuradio/
+	make
+	sudo make install
+	ldconfig
+
+	echo "[*] GR Paint"
+	cd gr-paint
+	mkdir build
+   	cd build
+    	cmake -DCMAKE_INSTALL_PREFIX=/usr ../
+    	make
+    	sudo make install
+    	sudo ldconfig
+	cd ../../
+	
+	echo "[*] HackRF tools"
+	#TBD
+
+	echo "[*] Inspectrum"
+	echo "inspectrum needs liquid-dsp"
+	git clone https://github.com/jgaeddert/liquid-dsp
+	sudo apt-get install qt5-default libfftw3-dev cmake pkg-config libliquid-dev
+	cd liquid-dsp
+	./bootstrap.sh
+	./configure
+	make check
+	make
+	sudo make install
+	cd ..
+	
+	cd inspectrum
+	mkdir build
+	cd build
+	cmake ..
+	make
+	sudo make install
+	cd ../../
+	
+	echo "[*] JADX"
+	#al gevalideer via apt
+
+	echo "[*] Kalibrate-RTL"
+	sudo apt-get install libtool libfftw3-dev
+	cd kalibrate-rtl
+	./bootstrap && CXXFLAGS='-W -Wall -O3' ./configure && make
+	cd ..
+	
+	echo "[*] killerbee"
+	sudo apt-get install python3-cairo python3-usb python3-dev libgcrypt-dev
+	pip3 install scapy
+	python3 setup.py install
+	
+	echo "[*] libmpsse"	
+	# file incomplete, has to be fixed
+	
+
+	echo "[*] LTE Cell Scanner"
+	cd LTE-Cell-Scanner
+	mkdir build
+  	cd build
+  	cmake ..
+  	make
+	sudo make install
+	cd ..
+	
+	
+	echo "[*] OOK Decoder"
+	#TBD	
+
+	echo "[*] qiling"
+	pip3 install qiling
+
+	echo "[*] RTL sdr tools"
+	cd rtl-sdr/
+	
+	mkdir build
+	cd build
+	cmake ../ -DINSTALL_UDEV_RULES=ON
+	make
+	sudo make install
+	sudo ldconfig
+	sudo make install-udev-rules
+	cd ../../
+	
+	echo "[*] Spectrum Painter"
+	#ingebouwd in python3
+
+	echo "[*] URH"
+	sudo python3 -m pip install urh 
+
 }
 
 install_theme.sh
