@@ -10,19 +10,34 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 install_theme.sh () {
+	#############Runs apt update and apt upgrade#############
 	#update;
-	addkiwauser;
-	installkaligui
-	configurexfce;
-	installpentest;
+ 	#############Adds a kiwa user and gives it sudo rights############
+	#addkiwauser;
+ 	#############Install a gui for WSL via Kali-win-kex############
+	#installkaligui;
+ 	#############Configure the xfce environment (style)############
+	#configurexfce;
+ 	#############Configure the theme############
+ 	#configuretheme;
+ 	#############Install some pentest tooling############
+	#installpentest;
+ 	#############Install trustedsec ptf############
 	#installptf;
-	installffdev;
-	#installmobilepentest;
-	installiotre;
-	#installmobsf;
-	#cloneptrepos;
-	#addaliases;
-	#buildattify;
+        #############Install Firefox Developer edition############
+	#installffdev;
+	#############Install some mobile pentest tooling############
+ 	#installmobilepentest;
+	#############Installing some IoT reverse engienering tools############
+ 	#installiotre;
+	#############Installing the mobile security framework (mobsf)############
+ 	#installmobsf;
+	#############Clone some default PT repos############
+ 	#cloneptrepos;
+	#############Add some useful aliasses############
+ 	#addaliases;
+	#############Build some tooling based on AttifyOS############
+ 	#buildattify;
 	
 		
 }
